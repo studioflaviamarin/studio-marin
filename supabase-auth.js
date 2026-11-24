@@ -19,6 +19,7 @@ function showSecureLogin() {
     document.querySelector('#loginModal').classList.remove('open');
     window.renderAdmin();
     document.querySelector('#adminModal').classList.add('open');
+    if (window.enableDatabaseAdmin) window.enableDatabaseAdmin();
     window.setupSiteSettings();
   };
 }
