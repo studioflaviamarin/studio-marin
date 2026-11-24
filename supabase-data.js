@@ -1,6 +1,6 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
-const db = window.supabaseClient || createClient('https://snelqloaemyrjwysenvk.supabase.co', 'sb_publishable_CDoU_YvY27xZWg9wTzWkdw_a4kXAyou');
+let db = window.supabaseClient || createClient('https://snelqloaemyrjwysenvk.supabase.co', 'sb_publishable_CDoU_YvY27xZWg9wTzWkdw_a4kXAyou');
 let dbProducts = [];
 const escDb = value => String(value || '').replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
 const moneyDb = value => Number(value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -55,13 +55,13 @@ function bindDatabaseForm() {
     const id = document.querySelector('#productId').value;
     const product = { name: document.querySelector('#productName').value, category: document.querySelector('#productCategory').value, price: Number(document.querySelector('#productPrice').value), image: document.querySelector('#productImage').value || null, description: document.querySelector('#productDescription').value || 'Uma fragrância especial.', promo: document.querySelector('#productPromo').checked, active: true };
     const result = id ? await db.from('products').update(product).eq('id', id) : await db.from('products').insert(product);
-    if (result.error) { alert('Não foi possível salvar. Confira se o SQL foi executado.'); return; }
+    if (result.error) { console.error('Supabase save error:', result.error); alert(`Não foi possível salvar: ${result.error.message}`); return; }
     form.reset(); document.querySelector('#productId').value = ''; await loadDatabaseProducts(); renderDatabaseAdmin();
     if (window.showToast) window.showToast('Perfume salvo no banco com segurança');
   };
 }
 
-window.enableDatabaseAdmin = () => { renderDatabaseAdmin(); bindDatabaseForm(); };
+window.enableDatabaseAdmin = () => { db = window.supabaseClient || db; renderDatabaseAdmin(); bindDatabaseForm(); };
 async function loadDatabaseSettings() {
   const { data } = await db.from('site_settings').select('*').eq('id', 1).maybeSingle();
   if (data) { localStorage.setItem('sutido_flavia_marin_site', JSON.stringify(data)); if (window.applySiteSettings) window.applySiteSettings(); }
