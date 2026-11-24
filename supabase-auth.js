@@ -3,6 +3,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 const SUPABASE_URL = 'https://snelqloaemyrjwysenvk.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_CDoU_YvY27xZWg9wTzWkdw_a4kXAyou';
 const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+window.supabaseClient = supabase;
 
 function showSecureLogin() {
   if (!document.querySelector('#loginModal')) {

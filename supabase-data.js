@@ -1,6 +1,6 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
-const db = createClient('https://snelqloaemyrjwysenvk.supabase.co', 'sb_publishable_CDoU_YvY27xZWg9wTzWkdw_a4kXAyou');
+const db = window.supabaseClient || createClient('https://snelqloaemyrjwysenvk.supabase.co', 'sb_publishable_CDoU_YvY27xZWg9wTzWkdw_a4kXAyou');
 let dbProducts = [];
 const escDb = value => String(value || '').replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
 const moneyDb = value => Number(value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
