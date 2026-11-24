@@ -18,8 +18,8 @@ function renderDatabaseProducts() {
     const cart = JSON.parse(localStorage.getItem('sutido_flavia_marin_cart') || '[]');
     cart.push({ ...product, oldPrice: product.old_price });
     localStorage.setItem('sutido_flavia_marin_cart', JSON.stringify(cart));
-    if (window.renderCart) window.renderCart();
     if (window.showToast) window.showToast(`${product.name} adicionado ao carrinho`);
+    setTimeout(() => window.location.reload(), 120);
   });
 }
 
